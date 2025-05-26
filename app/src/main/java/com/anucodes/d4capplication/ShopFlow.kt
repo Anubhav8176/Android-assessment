@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -43,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.colorspace.WhitePoint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -198,6 +201,48 @@ fun ShopFlowScreen(
             }
         }
 
+        Column(
+            modifier = Modifier
+                .padding(15.dp)
+        ) {
+            Row {
+                Text(
+                    text = "Categories",
+                    fontFamily = montserratFamily,
+                    fontSize = 22.sp,
+                    color = Color.White,
+                    fontWeight = FontWeight.SemiBold
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Text(
+                    text = "See all",
+                    fontFamily = montserratFamily,
+                    fontSize = 14.sp,
+                    color = Color.White.copy(alpha = 0.6f),
+                    textDecoration = TextDecoration.Underline
+                )
+            }
+
+            LazyRow {
+                items(5) {
+                    CategoryItem(
+                        R.drawable.productimage,
+                        "Cleaner"
+                    )
+                    CategoryItem(
+                        R.drawable.productimage,
+                        "Toner"
+                    )
+                    CategoryItem(
+                        R.drawable.productimage,
+                        "Serums"
+                    )
+                }
+            }
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -217,7 +262,8 @@ fun ShopFlowScreen(
                 text = "See all",
                 fontSize = 14.sp,
                 fontFamily = montserratFamily,
-                color = Color.White.copy(alpha = 0.6f)
+                color = Color.White.copy(alpha = 0.6f),
+                textDecoration = TextDecoration.Underline
             )
 
         }
@@ -398,7 +444,7 @@ fun ProductTile(
                             .align(Alignment.BottomEnd)
                             .padding(bottom = 16.dp)
                             .size(60.dp)
-                            .border(width =  1.dp, color = Color(0xFFB7EC43) , shape = CircleShape)
+                            .border(width = 1.dp, color = Color(0xFFB7EC43), shape = CircleShape)
                             .padding(10.dp),
                         imageVector = Icons.Default.ShoppingCart,
                         contentDescription = null,
@@ -421,6 +467,41 @@ fun Badge(count: Int) {
             .background(Color(0xFFB2FF59), CircleShape)
     ) {
         Text(text = "$count", fontSize = 10.sp, color = Color.Black)
+    }
+}
+
+@Composable
+fun CategoryItem(
+    categoryImage: Int,
+    categoryTitle: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(10.dp)
+                .size(130.dp)
+                .clip(CircleShape)
+                .background(Color.Black)
+        ){
+            Image(
+                modifier = Modifier
+                    .matchParentSize(),
+                painter = painterResource(categoryImage),
+                contentDescription = "product image"
+            )
+        }
+        Text(
+            modifier = modifier.padding(bottom = 10.dp),
+            text = categoryTitle,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = poppinsFamily,
+            color = Color.White
+        )
     }
 }
 
